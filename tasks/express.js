@@ -49,14 +49,17 @@ module.exports = function(grunt) {
     }
     if (options.livereload) {
       // dynamically add `grunt-contrib-watch` task to manage livereload of static `bases`
-      grunt.config.set('watch.' + util.makeServerTaskName(thisTarget, 'livereload'), {
-        files: _.map(options.bases, function(base) {
-          return base + '/**/*.*';
-        }),
-        options: {
-          livereload: options.livereload
-        }
-      });
+      // if U have watch option, use it
+      if (!grunt.config.get('watch')) {
+        grunt.config.set('watch.' + util.makeServerTaskName(thisTarget, 'livereload'), {
+          files: _.map(options.bases, function(base) {
+            return base + '/**/*.*';
+          }),
+          options: {
+            livereload: options.livereload
+          }
+        });
+      }
     }
 
     if (options.serverreload) {
